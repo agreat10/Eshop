@@ -1,3 +1,12 @@
 include header.pug
 h2= message
-h3 foo #{foo}
+h3 fi #{foo}
+each val, index in goods
+  p #{val['name']}
+  img(
+    src='images/'+val['image']
+    class='test'
+  )
+
+
+h4 #{qq}

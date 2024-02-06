@@ -1,6 +1,28 @@
 include header.pug
+
+button.btn.btn-primary(type='button', data-toggle='modal', data-target='#exampleModal') Launch demo modal
+
+.modal#exampleModal(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5.modal-title#exampleModalLabel Modal title
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body
+        p Modal body text goes here.
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+        button.btn.btn-primary Save changes
+
+
+h1 Пример страницы с Bootstrap
+p Это простой пример страницы, использующей Bootstrap.
+button.btn.btn-danger(type='button') Нажми меня
 h2= message
+
 h3 fi #{foo}
+
 each val, index in goods
   p #{val['name']}
   img(
@@ -10,3 +32,12 @@ each val, index in goods
 
 
 h4 #{qq}
+
+script(
+        src='https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js', defer
+        )
+script(
+    src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', defer
+    ) 
+script(
+    src='https://code.jquery.com/jquery-3.5.1.slim.min.js', defer)

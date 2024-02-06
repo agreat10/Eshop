@@ -14,8 +14,8 @@ let mysql = require('mysql');
 //настраиваем 
 let con = mysql.createConnection({
   host: 'localhost',
-  user: 'agreat',
-  password: 'agreat',
+  user: 'root',
+  password: '',
   database: 'market'
 });
 
@@ -46,9 +46,39 @@ app.get('/', (req, res) => {
           goods: JSON.parse(JSON.stringify(goods))
          });
     }
-  );
-
-
-
+  );  
+});
+app.get('/cat', function(req, res){
   
+  //res.render('cat', {});
+     
+  console.log(req.query.id);
+  let catId = req.query.id;
+
+   let cat = new Promise(function(resolve,reject){
+    con.query(
+      'SELECT * FROM category WHERE id='+catId,
+      function(error, result){
+        if(error) reject(error);
+        resolve(result);
+      });
+  });
+
+  let goods = new Promise(function(resolve,reject){
+    con.query(
+      'SELECT * FROM goods WHERE category='+catId,
+      function(error, result){
+        if(error) reject(error);
+        resolve(result);
+      });
+  });
+
+  Promise.all([cat, goods]).then(function(value){
+    console.log(value[1]);
+    res.render('cat', {
+      cat: JSON.parse(JSON.stringify(value[0])),
+      goods: JSON.parse(JSON.stringify(value[1]))
+    });
+  }) /**/
+
 });

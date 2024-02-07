@@ -1,9 +1,9 @@
 include header
-h2 Category 
+
 div(class='wrap')
   div(class='content')
     header(class='site-header')
-      include site_header 
+      include site_header
 
     div(class='container')
       div(class='row')
@@ -11,5 +11,8 @@ div(class='wrap')
           h2 #{cat[0]['category']}
         each val, index in goods
           include card.pug
+                  
+
+
 
         div #{cat[0]['description']}

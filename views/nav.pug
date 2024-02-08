@@ -1,0 +1,15 @@
+div(
+    class="site-nav bg-success text-white p-3"
+)   
+    div(class="close-button-div")
+        button(class='btn btn-warning  close-nav text-danger') X
+    h3(class="cart-header") Категории
+    div(id="category-list", class=' text-warning')
+    h3(class="cart-header") Корзина
+    div(id="cart-nav")
+    div(class='text-right')
+        a(
+            href="/order"
+            target="_blank"
+        ) 
+            button(class="btn btn-primary") Order

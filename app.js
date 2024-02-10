@@ -17,6 +17,8 @@ let mysql = require('mysql');
 */
 app.use(express.json());
 
+const nodemailer = require('nodemailer');
+
 let con = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -135,7 +137,7 @@ app.post('/finish-order', function (req, res) {
       function (error, result, fields) {
         if (error) throw error;
         //console.log(result);
-        //sendMail(req.body, result).catch(console.error);
+        sendMail(req.body, result).catch(console.error);
         res.send('1');
       });
   }
@@ -144,6 +146,44 @@ app.post('/finish-order', function (req, res) {
   }
 });
 
-function sendMail(data, result) {
+async function sendMail(data, result) {
+  let res = '<h2>Заказ из магазина</h2>';
+  let total = 0;
+  for (let i = 0; i < result.length; i++) {
+    res += `<p>${result[i]['name']} - ${data.key[result[i]['id']]} - ${result[i]['cost'] * data.key[result[i]['id']]} руб</p>`;
+    total += result[i]['cost'] * data.key[result[i]['id']];
+  }
+  //console.log(res);
+  res += '<hr>';
+  res += `Итого: ${total} руб`;
+  res += `<hr>Телефон: ${data.phone}`;
+  res += `<hr>Имя: ${data.username}`;
+  res += `<hr>Адрес: ${data.address}`;
+  res += `<hr>Email: ${data.email}`;
 
+  let testAccount = await nodemailer.createTestAccount();
+
+  let transporter = nodemailer.createTransport({
+    host: "smtp.ethereal.email",
+    port: 587,//465
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: testAccount.user, // generated ethereal user
+      pass: testAccount.pass // generated ethereal password
+    }
+  });
+
+  let mailOption = {
+    from: '<komolov10@gmail.com>',
+    to: "komolov10@gmail.com," + data.email,
+    subject: "Lite shop order",
+    text: 'Hello world',
+    html: res
+  };
+
+  //отправка письма
+  let info = await transporter.sendMail(mailOption);
+  console.log("MessageSent: %s", info.messageId);
+  console.log("PreviewSent: %s", nodemailer.getTestMessageUrl(info));
+  return true; /**/
 }

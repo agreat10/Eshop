@@ -1,9 +1,11 @@
 * {
     font-family: sans-serif;
   }
-  
-  .wrap {
+  body{
     background: #FFF5D1;
+  }
+  .wrap {
+    
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;

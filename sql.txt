@@ -1,0 +1,41 @@
+DROP TABLE IF EXISTS category;
+CREATE TABLE category (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category VARCHAR(255) NOT NULL,
+    description TEXT,
+    image VARCHAR(255)
+);
+
+
+INSERT INTO category VALUES(
+1,
+'Notebooks',
+'Opisanie',
+'images.png'
+),
+(
+2,
+'Smartfones',
+'Opisanie',
+'images.ipg'
+);
+
+DROP TABLE IF EXISTS goods;
+CREATE TABLE goods (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    cost double DEFAULT NULL,
+    image VARCHAR(255),
+    category int(5) DEFAULT NULL
+);
+INSERT INTO goods VALUES(
+1,'Notebooks1','Opisanie',5100,'len1.png',1),
+(2,'Smartfones1','Opisanie',2100,'xs1.png',2),
+(3,'Smartfones2','Opisanie',2200,'xs2.png',2),
+(4,'Smartfones3','Opisanie',2300,'xs3.png',2),
+(5,'Smartfones4','Opisanie',2400,'xs4.png',2),
+(6,'Notebooks2','Opisanie2',5200,'len2.png',1),
+(7,'Notebooks3','Opisanie3',5300,'len3.png',1),
+(8,'Notebooks4','Opisanie4',5400,'len4.png',1),
+(9,'Notebooks5','Opisanie5',5500,'len5.png',1);

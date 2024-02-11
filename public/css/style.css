@@ -95,3 +95,12 @@ ul.category-list a {
 .card-width {  
   width: 200px;  
 }
+table {
+  width: 100%; /* Ширина таблицы на 100% */
+  border-collapse: collapse; /* Объединение границ ячеек */
+}
+th, td {
+  text-align: left; /* Выравнивание содержимого ячеек по левому краю */
+  padding: 8px; /* Отступ вокруг текста в ячейках */
+  border: 1px solid black; /* Границы ячеек */
+}

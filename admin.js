@@ -1,7 +1,7 @@
 module.exports = function (req, res, con, next) {
-    console.log(req.cookies);
-    console.log(req.cookies.hash);
-    console.log(req.cookies.id);
+    //console.log(req.cookies);
+    //console.log(req.cookies.hash);
+    //console.log(req.cookies.id);
     if (req.cookies.hash == undefined || req.cookies.id == undefined) {
         res.redirect('/login');
         return false;
@@ -12,6 +12,12 @@ module.exports = function (req, res, con, next) {
             if (error) reject(error);
             console.log(result);
             if (result.length == 0) {
+                Swal.fire({
+                    title: 'Внимание',
+                    text: 'Необходимо согласиться с условиями',
+                    type: 'info',
+                    confirmButtonText: 'Ok'
+                });
                 console.log('error user not found');
                 res.redirect('/login');
             }

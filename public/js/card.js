@@ -47,9 +47,9 @@ function showCart(data) {
   let total = 0;// сумма товаров в корзине
   for (let key in cart){//перебор массива cart
     out +=`<tr><td colspan="4"><a href="/goods?id=${key}">${data[key]['name']}</a></tr>`;//название товара
-    out += `<tr><td><i class="far fa-minus-square cart-minus" data-goods_id="${key}"></i></td>`;//минус
+    out += `<tr><td><i class=" btn btn-danger far fa-minus-square cart-minus" data-goods_id="${key}"></i></td>`;//минус
     out += `<td>${cart[key]}</td>`;//количество товара
-    out += `<td><i class="far fa-plus-square cart-plus" data-goods_id="${key}"></i></td>`;//плюс
+    out += `<td><i class="btn btn-primary far fa-plus-square cart-plus" data-goods_id="${key}"></i></td>`;//плюс
     out += `<td>${formatPrice(data[key]['cost'] * cart[key])} руб </td>`//стоимость
     out += '</tr>';
     total += cart[key]*data[key]['cost'];//общая стоимость

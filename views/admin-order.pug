@@ -1,18 +1,19 @@
 include header
-h1 Админ - панель
-h2 Информация о заказах
+include admin-header
+
+h2.text-danger Информация о заказах
 table
  tr
   th id
-  th date
-  th userId
-  th goodsId
-  th Goods Cost
-  th Goods Amount
+  th Дата заказа
+  th Id заказчика
+  th Id товара
+  th Цена товара
+  th Количество товара
   th(class='text-danger') Итого
-  th User
-  th Phone
-  th Address
+  th Имя
+  th Телефон
+  th Адресс
  each val, index in order
   tr 
    td #{val['id']}

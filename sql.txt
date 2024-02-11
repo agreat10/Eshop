@@ -8,16 +8,10 @@ CREATE TABLE category (
 
 
 INSERT INTO category VALUES(
-1,
-'Notebooks',
-'Opisanie',
-'images.png'
+1,'Notebooks','Opisanie','images.png'
 ),
 (
-2,
-'Smartfones',
-'Opisanie',
-'images.ipg'
+2,'Smartfones','Opisanie','images.ipg'
 );
 
 DROP TABLE IF EXISTS goods;

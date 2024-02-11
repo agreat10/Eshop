@@ -1,0 +1,22 @@
+include header
+include admin-header   
+h2.text-center.mb-4 Категории
+.container
+    form#addCategoriesForm
+        input(type='hidden', name='categoryId', id='categoryId', value='0')
+        .form-group.my-2
+            label(for='categoryName').form-label.fw-bold Название категории:
+            input(type='text', class='form-control', id='categoryName', name='categoryName', required)
+        button.btn.btn-primary(type='submit' ) Сохранить
+
+    table#categoriesTable.table.table-striped.mt-4
+        thead
+            tr
+                th ID
+                th Название категории
+                th Действия
+        tbody
+
+
+script(src='js/admin-goods.js')
+include footer 

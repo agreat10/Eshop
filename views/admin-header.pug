@@ -1,10 +1,6 @@
 div(class='container max-width bg-warning')
   div(class='row')
-    div(class='col col-lg-1 col-md-1 p-2')
-      nav(class="navbar navbar-dark navbar-brand-color")
-        div(class="container-fluid")
-          button(class="navbar-toggler show-nav" )
-            span(class="navbar-toggler-icon")
+    
     div(class='col col-lg-11 col-md-11')      
       nav.navbar.navbar-expand-lg.bg-body-tertiary
         .container-fluid
@@ -20,5 +16,4 @@ div(class='container max-width bg-warning')
               li.nav-item
                 a.nav-link(href='/order') Корзина
               li.nav-item
-                a.nav-link(href='/admin') Админка
-          
+                a.nav-link#logoutButton(href='/login') Выход

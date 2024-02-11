@@ -75,7 +75,7 @@ app.get('/', function (req, res) {
     );
   });
   Promise.all([cat1, catDescription]).then(function (value) {
-    console.log(value[0]);
+    //console.log(value[0]);
     res.render('index', {
       goods: JSON.parse(JSON.stringify(value[0])),
       cat2: JSON.parse(JSON.stringify(value[1])),
@@ -130,17 +130,17 @@ app.post('/get-category-list', function (req, res) {
   // console.log(req.body);
   con.query('SELECT id, category FROM category', function (error, result, fields) {
     if (error) throw error;
-    console.log(result)
+    //console.log(result)
     res.json(result);
   });
 });
 
 app.post('/get-goods-info', function (req, res) {
-  console.log(req.body.key);
+  //console.log(req.body.key);
   if (req.body.key.length != 0) {
     con.query('SELECT id,name,cost FROM goods WHERE id IN (' + req.body.key.join(',') + ')', function (error, result, fields) {
       if (error) throw error;
-      console.log(result);
+      //console.log(result);
       let goods = {};
       for (let i = 0; i < result.length; i++) {
         goods[result[i]['id']] = result[i];
@@ -177,6 +177,12 @@ app.get('/admin', function (req, res) {
   res.render('admin', {});
 });
 
+app.get('/admin-goods', function (req, res) {
+  //console.log(req.cookies.hash);
+  res.render('admin-goods', {});
+  
+});
+
 app.get('/admin-order', function (req, res) {
   con.query(`SELECT 
 	shop_order.id as id,
@@ -198,6 +204,32 @@ ON shop_order.user_id = user_info.id ORDER BY id DESC`, function (error, result,
       console.log(result);
       res.render('admin-order', { order: JSON.parse(JSON.stringify(result)) });
     });
+});
+
+//добавление категории
+app.post('/admin-goods', (req, res) => {
+  const categoryName = req.body.categoryName;
+console.log('+++++');
+console.log(categoryName);
+  con.query('INSERT INTO category (category) VALUES (?)', [categoryName], (err, results) => {
+    if (err) throw err;
+
+    /* con.query('SELECT * FROM category', (err, results) => {
+      if (err) throw err;
+      res.json({ categories: results });
+    }); */
+  });
+});
+
+//получение категорий
+app.get("/admin-goods", (request, response) => {
+  con.query("select * from category", (error, results) => {
+      if (error) console.log(error);
+      else {
+        console.log(response.json(results));
+        
+      };
+  });
 });
 
 /**

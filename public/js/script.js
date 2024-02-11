@@ -1,14 +1,12 @@
-/* const http = require('http');
-http.createServer(function(request, response){
-    console.log(request.url);
-    console.log(request.method);
+// Функция для удаления cookie по имени
+function deleteCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    
+}
 
-
-    response.setHeader("Content-Type", "text/html; charset=utf-8")
-    if(request.url == '/'){
-        response.end('Main <b>hello</b> Привет');
-        }
-    else if(request.url == '/cat'){
-        response.end('Categoty <h2>hello</h2> Категория');
-    }
-}).listen(3000); */
+// Обработчик события для кнопки "Выйти из админки"
+document.getElementById('logoutButton').addEventListener('click', function() {
+    deleteCookie('hash');
+    deleteCookie('id'); // Удаление cookie с именем 'adminToken'
+    // Дополнительные действия, если необходимо
+});

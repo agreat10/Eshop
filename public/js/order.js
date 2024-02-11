@@ -1,3 +1,5 @@
+
+
 document.querySelector('#lite-shop-order').onsubmit = function (event) {
     event.preventDefault();//останавливаем перезагрузку страницы при нажатии ЗАКАЗАТЬ
 
@@ -56,6 +58,11 @@ document.querySelector('#lite-shop-order').onsubmit = function (event) {
                     type: 'info',
                     confirmButtonText: 'Ok'
                 });
+                setTimeout(function() {
+                    // Ваш код, который должен быть выполнен после задержки в 5 секунд
+                    window.location.href = '/';
+                }, 5000);
+                
             }
             else {
                 //если в ответе сервера была ошибка
@@ -68,3 +75,8 @@ document.querySelector('#lite-shop-order').onsubmit = function (event) {
             }
         })
 }
+// Функция для очистки состояния корзины
+function clearLocalStorageCart() {
+    localStorage.removeItem('cart'); // Удаляем данные корзины из локального хранилища
+    // Дополнительные действия, если необходимо
+  }

@@ -1,7 +1,24 @@
 div(class='container max-width bg-warning')
   div(class='row')
     div(class='col col-lg-1 col-md-1 p-2')
-      button(class="show-nav btn btn-outline-success navbar") <i class="fa-solid fa-bars fa-2xs"></i>
-    div(class='col col-lg-11 col-md-11')
-      a(href='/')
-        h1 Lite Shop
+      nav(class="navbar navbar-dark navbar-brand-color")
+        div(class="container-fluid")
+          button(class="navbar-toggler show-nav" )
+            span(class="navbar-toggler-icon")
+    div(class='col col-lg-11 col-md-11')      
+      nav.navbar.navbar-expand-lg.bg-body-tertiary
+        .container-fluid
+          a.navbar-brand(href='/') StreetShop
+          button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbarTogglerDemo02', aria-controls='navbarTogglerDemo02', aria-expanded='false', aria-label='Toggle navigation')
+            span.navbar-toggler-icon
+          div(class='collapse.navbar-collapse#navbarTogglerDemo02')
+            ul.navbar-nav.me-auto.mb-2.mb-lg-0
+              li.nav-item
+                a.nav-link.active(aria-current='page', href='/cat?id=1') Ноутбуки
+              li.nav-item
+                a.nav-link(href='/cat?id=2') Смартфоны
+              li.nav-item
+                a.nav-link(href='/order') Корзина
+              li.nav-item
+                a.nav-link(href='/login') Админка
+          

@@ -1,5 +1,7 @@
 let express = require('express');
 let app = express();
+let cookieParser = require('cookie-parser');
+let admin = require('./admin');
 /**
  * public - имя папки где хранится статика
  */
@@ -18,6 +20,7 @@ let mysql = require('mysql');
 app.use(express.json());
 
 app.use(express.urlencoded());
+app.use(cookieParser());
 
 const nodemailer = require('nodemailer');
 
@@ -28,10 +31,28 @@ let con = mysql.createPool({
   database: 'market'
 });
 
+
+
+
+
+
+
+
+
+
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 app.listen(3000, function () {
   console.log('node express work on 3000');
+});
+
+app.use(function (req, res, next) {
+  if (req.originalUrl == '/admin' || req.originalUrl == '/admin-order') {
+    admin(req, res, con, next);
+  }
+  else {
+    next();
+  }
 });
 
 app.get('/', function (req, res) {
@@ -152,6 +173,7 @@ app.post('/finish-order', function (req, res) {
 });
 
 app.get('/admin', function (req, res) {
+  //console.log(req.cookies.hash);
   res.render('admin', {});
 });
 
@@ -206,12 +228,14 @@ app.post('/login', function (req, res) {
       else {
         result = JSON.parse(JSON.stringify(result));
         //console.log(result[0]['id']);
-       res.cookie('hash', 'blablabla');
+        let hash = makeHash(32);
+       res.cookie('hash', hash);
+       res.cookie('id', result[0]['id']);
        //res.end('BLASSS');
         /* *
          * write hash to db
          */
-        sql = "UPDATE user  SET hash='blablabla' WHERE id=" + result[0]['id'];
+        sql = "UPDATE user  SET hash='" + hash + "' WHERE id=" + result[0]['id'];//устанавливаем куки
         con.query(sql, function (error, resultQuery) {
           if (error) throw error;
           res.redirect('/admin');
@@ -286,4 +310,15 @@ async function sendMail(data, result) {
   console.log("MessageSent: %s", info.messageId);
   console.log("PreviewSent: %s", nodemailer.getTestMessageUrl(info));
   return true; /**/
+}
+
+
+function makeHash(length) {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }

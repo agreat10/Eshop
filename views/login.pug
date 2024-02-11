@@ -1,9 +1,16 @@
-form(action="/login", method="POST")
-    label Логин
-    input(name="login", value="admin", id="login")
-    label Пароль
-    input(type="password", name="password", value="123", id="password")
-    input(type="submit", value="login")
+include header
 
+.container
+  .row.justify-content-center
+    .col-md-6
+        form(action="/login", method="POST")
+            .form-group
+                label(class="form-label") Логин:
+                input(class="form-control"  placeholder="name@example.com" name="login" id="login" value="admin")
+            .form-group
+                label(class="col-sm-2 col-form-label") Пароль:
+                input(type="password" class="form-control" name="password"  value="123"  id="password")
+            
+            input(type="submit", value="Вход" class="btn btn-primary")
+include footer.pug
 
-//script(src="js/login.js")

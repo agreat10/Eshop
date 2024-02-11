@@ -86,3 +86,12 @@ ul.category-list a {
 .site-nav a {
   color: #f5ffad;
 }
+
+.card-titles {
+  height: 50px; /* Устанавливаем фиксированную высоту для названия товара */
+  
+  overflow: hidden; /* Скрываем лишнее содержимое, если оно выходит за пределы высоты */
+}
+.card-width {  
+  width: 200px;  
+}

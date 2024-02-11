@@ -39,3 +39,31 @@ INSERT INTO goods VALUES(
 (7,'Notebooks3','Opisanie3',5300,'len3.png',1),
 (8,'Notebooks4','Opisanie4',5400,'len4.png',1),
 (9,'Notebooks5','Opisanie5',5500,'len5.png',1);
+
+CREATE TABLE `user_info` (
+  `id` int(11) NOT NULL,
+  `user_name` varchar(100) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `user_phone` varchar(100) NOT NULL,
+  `user_email` varchar(100) NOT NULL,
+  `address` varchar(1000) NOT NULL
+)
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `login` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `hash` varchar(100) NOT NULL  
+)
+
+INSERT INTO `user_info` (`id`, `login`, `password`) VALUES
+(1, 'admin', '123');
+
+CREATE TABLE `shop_order` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `goods_id` int(11) NOT NULL,
+  `goods_cost` double NOT NULL,
+  `goods_amount` int(11) NOT NULL,
+  `total` double NOT NULL,
+  `date` int(11) NOT NULL
+)

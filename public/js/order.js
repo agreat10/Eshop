@@ -51,6 +51,7 @@ document.querySelector('#lite-shop-order').onsubmit = function (event) {
         })
         .then(function (body) {
             if (body == 1) {
+                clearLocalStorageCart();
                 //если заказ ушел
                 Swal.fire({
                     title: 'Хорошо',

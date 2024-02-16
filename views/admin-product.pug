@@ -1,0 +1,68 @@
+include header
+include admin-header 
+- var categories = [{ id: 1, name: 'Ноутбуки' },{ id: 2, name: 'Телефоны' },{ id: 3, name: 'Другое' }]
+
+div.container(style='margin-bottom: 70px;') 
+  h2.text-center.mb-4 Категории
+  a(href="/admin") Админка
+  block content
+    
+    // Модальное окно для добавления товара
+    div#addProductModal.modal(style='display: none;')
+      div.modal-content.container
+        h2 Добавление товара
+        form(action='/admin-product', method='POST', enctype='multipart/form-data')
+          .form-group
+            label(for='product-name') Имя товара:
+            input#product-name-modal.form-control(type='text', name='name', placeholder='Введите имя товара', required)
+          .form-group
+            label(for='product-description') Описание товара:
+            input#product-description.form-control(type='text', name='description', placeholder='Введите описание товара', required)
+          .form-group
+            label(for='product-price') Цена товара:
+            input#product-price.form-control(type='text', name='price', placeholder='Введите цену товара', required)
+          .form-group
+            label(for='product-category') Категория товара:
+            select#product-category.form-control(name='category', required)
+              each category in categories
+                option(value=category.id)= category.name
+          .form-group
+            label(for='product-image') Изображение товара:
+            input#product-image.form-control(type='file', name='image', accept='image/*', required)
+          div.d-flex.justify-content-end.mt-3
+            button.cancel-button.btn.btn-secondary(type='button') Отменить
+            button.save-button.btn.btn-primary(type='submit') Добавить
+
+    h2.mb-4 Добавление товара
+    form()
+      .input-group.mb-3
+        input#product-name.form-control(type='text', name='product', placeholder='Введите имя товара')
+        button.btn.btn-success(type='submit') Добавить  
+
+    each product in products
+      .category.card.mb-3
+        .card-body.d-flex.justify-content-between.align-items-center
+          .row
+            .col
+              .info-block
+                p.h4.card-title.mb-0.flex-grow-1 #{product.name}
+                div(class='text-center text-success') #{product.cost.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ')} руб
+                div(class='text-center text-Info') Категория: #{product.category}
+            .col
+              .info-block
+                p.h5.card-text.mb-0.flex-grow-1 #{product.description}
+            .col
+              .info-block
+                img(
+                    src='images/'+product.image
+                    class='card-img  mt-100'
+                )           
+            .col
+              form(action=`/admin-product/${product.id}/delete`, method='POST', onsubmit='return confirm("Вы точно хотите удалить этот товар?");')
+                button.btn.btn-danger(type='submit') Удалить
+
+
+
+script(src='js/admin-product.js')
+//script(src='js/admin-goods.js')
+include footer 

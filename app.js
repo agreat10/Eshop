@@ -2,6 +2,8 @@ let express = require('express');
 let app = express();
 let cookieParser = require('cookie-parser');
 let admin = require('./admin');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Папка для сохранения загруженных файлов
 /**
  * public - имя папки где хранится статика
  */
@@ -177,11 +179,7 @@ app.get('/admin', function (req, res) {
   res.render('admin', {});
 });
 
-app.get('/admin-goods', function (req, res) {
-  //console.log(req.cookies.hash);
-  res.render('admin-goods', {});
-  
-});
+
 
 app.get('/admin-order', function (req, res) {
   con.query(`SELECT 
@@ -206,29 +204,103 @@ ON shop_order.user_id = user_info.id ORDER BY id DESC`, function (error, result,
     });
 });
 
-//добавление категории
-app.post('/admin-goods', (req, res) => {
-  const categoryName = req.body.categoryName;
-console.log('+++++');
-console.log(categoryName);
-  con.query('INSERT INTO category (category) VALUES (?)', [categoryName], (err, results) => {
-    if (err) throw err;
 
-    /* con.query('SELECT * FROM category', (err, results) => {
-      if (err) throw err;
-      res.json({ categories: results });
-    }); */
+app.get('/admin-goods', function(req, res) {
+  con.query('SELECT * FROM category', function(err, rows) {
+    if (err) throw err;
+    res.render('admin-goods', { categories: rows });
   });
 });
 
-//получение категорий
-app.get("/admin-goods", (request, response) => {
-  con.query("select * from category", (error, results) => {
-      if (error) console.log(error);
-      else {
-        console.log(response.json(results));
-        
-      };
+// Обработчик POST запроса для изменения категории
+app.post('/admin-goods/:id/edit', (req, res) => {
+    const categoryId = req.params.id;
+    const newCategory = req.body.newCategory;
+
+  console.log('Категория');
+  console.log(categoryId);
+  console.log(newCategory);
+  con.query('UPDATE category SET category = ? WHERE id = ?', [newCategory, categoryId], function(err, result) {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Произошла ошибка при обновлении категории.");
+    } else {
+      res.redirect('/admin-goods');
+     
+    }
+  });
+});
+
+
+app.post('/admin-goods/:id/delete', function(req, res) {
+  var categoryId = req.params.id;
+  con.query('DELETE FROM category WHERE id = ?', [categoryId], function(err) {
+    if (err) throw err;
+    res.redirect('/admin-goods');
+  });
+});
+
+app.post('/admin-goods', function(req, res) {
+  var categoryName = req.body.category;
+  con.query('INSERT INTO category (category) VALUES (?)', [categoryName], function(err) {
+    if (err) throw err;
+    res.redirect('/admin-goods');
+  });
+});
+
+
+app.get('/admin-product', function(req, res) {
+  con.query('SELECT goods.*, category.category FROM goods JOIN category ON goods.category = category.id', function(err, rows) {
+    if (err) throw err;
+    res.render('admin-product', { products: rows });
+  });
+});
+
+app.post('/admin-product/:id/delete', function(req, res) {
+  var productId = req.params.id;
+  con.query('DELETE FROM goods WHERE id = ?', [productId], function(err) {
+    if (err) throw err;
+    res.redirect('/admin-product');
+  });
+});
+
+/* app.post('/admin-product', function(req, res) {
+
+  var productName = req.body.name;
+  var productDescription = req.body.description;
+  var productCost = req.body.cost;
+  var productImage = req.body.image;
+  var productCategory = req.body.category;
+  console.log('Имя');
+  console.log(productName);
+  console.log(productCategory);
+
+  con.query('INSERT INTO goods (name, description, cost, image, category) VALUES (?,?,?,?,?)', [productName, productDescription, productCost, productImage, productCategory], function(err, result) {
+    if (err) {
+      console.error('Ошибка при добавлении товара:', err);
+      res.status(500).send('Ошибка при добавлении товара');
+    } else {
+      console.log('Товар успешно добавлен');
+      res.redirect('/admin-product');
+    }
+  });
+}); */
+
+app.post('/admin-product', upload.single('image'), function(req, res) {
+  var productName = req.body.name;
+  var productDescription = req.body.description;
+  var productPrice = req.body.price;
+  var productCategory = req.body.category;
+  var productImage = req.file.filename; // Имя загруженного файла
+  var originalImageName = req.file.originalname; // Изначальное имя файла изображения
+  con.query('INSERT INTO goods (name, description, cost, category, image) VALUES (?,?,?,?,?)', [productName, productDescription, productPrice, productCategory, originalImageName], function(err, result) {
+    if (err) {
+      console.error('Ошибка при добавлении товара:', err);
+      res.status(500).send('Ошибка при добавлении товара');
+    } else {
+      console.log('Товар успешно добавлен');
+      res.redirect('/admin-product');
+    }
   });
 });
 
